@@ -6,7 +6,7 @@
   "scripts": {
     "setup-dbs": "psql -f db/setup.sql",
     "seed-dev": "node ./db/run-seed.js",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +14,12 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
     "pg-format": "^1.0.4"
   }
 }

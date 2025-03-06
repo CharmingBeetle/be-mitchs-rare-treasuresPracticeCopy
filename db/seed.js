@@ -1,4 +1,4 @@
-const db = require("./");
+const db = require("./connection");
 const format = require("pg-format");
 
 const manageTables = require("./manage-tables");
