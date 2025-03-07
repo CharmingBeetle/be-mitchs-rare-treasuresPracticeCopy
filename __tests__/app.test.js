@@ -64,6 +64,9 @@ describe("/api/treasures", () => {
                 .expect(200)
                 .then(({ body }) => {
                     const treasure = body.treasure
+                    console.log(response, "OVER HERE")
+                    console.log(body, "LOOOOOOOK")
+                    console.log(body.treasure, "LOOOOOOOOK")
                         expect(treasure.treasure_id).toBe(12);
                         expect(typeof treasure.treasure_name).toBe("string");
                         expect(typeof treasure.colour).toBe("string");
@@ -72,20 +75,23 @@ describe("/api/treasures", () => {
                         expect(typeof treasure.shop_id).toBe("number");
                     })
                 })
-                // test("200: Tests whether we receive a sorted array of objects by age",() => {
-                //     return request(app)
-                //     .get('/api/treasures/age/9')
-                //     .expect(200)
-                //     .then(( {body} ) => {
-                //         const treasure = body.treasure
-                //         console.log(treasure, "<<<<< TREASURES")
-                //             expect(typeof treasure.treasure_id).toBe("number");
-                //             expect(typeof treasure.treasure_name).toBe("string");
-                //             expect(typeof treasure.colour).toBe("string");
-                //             expect(treasure.age).toBe(9);
-                //             expect(typeof treasure.cost_at_auction).toBe("number");
-                //             expect(typeof treasure.shop_id).toBe("number");
-                //         })
-                //         })
+                test("200: Tests so we can get an array sorted by age",() => {
+                    return request(app)
+                    .get('/api/treasures?sort_by=age')
+                    .expect(200)
+                    .then(( {body} ) => {
+                        const treasures = body.treasure
+                        expect(treasures.length).toBeGreaterThan(0)
+                        treasures.forEach((treasure) =>{
+                            expect(typeof treasure.treasure_id).toBe("number");
+                            expect(typeof treasure.treasure_name).toBe("string")
+                            expect(typeof treasure.colour).toBe("string");
+                            expect(typeof treasure.age).toBe('Number');
+                            expect(typeof treasure.cost_at_auction).toBe("number");
+                            expect(typeof treasure.shop_id).toBe("number");
+                        })
+                      
+                        })
+                        })
                     })
     })

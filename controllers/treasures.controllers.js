@@ -19,24 +19,6 @@ exports.getTreasuresById = (request, response, next)=> {
     .catch(next)
 }
 
-// exports.getTreasuresByAge = (request, response, next)=> {
-//     const { age } = request.params
-//     fetchTreasuresByAge(age)
-//     .then((treasure)=> {
-//         response.status(200).send({treasure})
-//     })
-//     .catch(next)
-// }
 
-// exports.getTreasuresByCost = (request, response, next)=> {
-//     console.log("cost controller")
-//     console.log(request.params, "<<<<<< REQUEST KEYS ")
-//     const { cost } = request.params
-//     fetchTreasuresByAge(age)
-//     .then((treasure)=> {
-//         response.status(200).send({treasure})
-//     })
-//     .catch(next)
-// }
 
 
