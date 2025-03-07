@@ -1,9 +1,8 @@
 const db = require("../db/connection")
-const { getTreasures, getTreasuresById } = require("../controllers/treasures.controllers")
+const { getTreasures, getTreasuresById, getTreasuresByAge} = require("../controllers/treasures.controllers")
 const app = require("../app")
 
 exports.fetchTreasures = () => {
-    console.log("fetchTreasures model")
     return db.query(`SELECT * FROM treasures ORDER BY age ASC `)
     .then(({ rows })=> {
         // console.log(rows)
@@ -11,7 +10,6 @@ exports.fetchTreasures = () => {
     })
 }
 exports.fetchTreasuresById = (treasure_id) => {
-    console.log("fetchTreasuresByID model")
     return db.query(`SELECT * FROM treasures WHERE treasure_id =$1`, [treasure_id])
     .then(({ rows })=> {
         if (rows.length === 0) {
@@ -21,14 +19,24 @@ exports.fetchTreasuresById = (treasure_id) => {
         return rows[0]
     })
 }
-exports.fetchTreasuresByAge= (age) => {
-    console.log("fetchTreasuresByAge model")
-    return db.query(`SELECT * FROM treasures WHERE age =$1`, [age])
-    .then(({ rows })=> {
-        if (rows.length === 0) {
-            return Promise.reject({ status: 404, msg: "Treasure not found" });
-        }
-        console.log(rows, "<<<<<BY AGE")
-        return rows[0]
-    })
-}
+// exports.fetchTreasuresByAge= (age) => {
+//     console.log("fetchages model")
+//     return db.query(`SELECT * FROM treasures ORDER BY age ASC`, [age])
+//     .then(({ rows })=> {
+//         if (rows.length === 0) {
+//             return Promise.reject({ status: 404, msg: "Treasure not found" });
+//         }
+//         return rows[0]
+//     })
+// }
+// exports.fetchTreasuresByCost= (cost) => {
+//     console.log("fetchages model")
+//     return db.query(`SELECT * FROM treasures WHERE cost_at_auction =$1`, [cost])
+//     .then(({ rows })=> {
+//         if (rows.length === 0) {
+//             return Promise.reject({ status: 404, msg: "Treasure not found" });
+//         }
+//         console.log(rows, "<<<<<BY COST")
+//         return rows[0]
+//     })
+// }

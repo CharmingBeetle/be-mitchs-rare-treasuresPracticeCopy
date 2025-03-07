@@ -1,0 +1,15 @@
+ shop_id | shop_name |    owner    |  slogan  
+---------+-----------+-------------+----------
+       1 | shop-b    | firstname-b | slogan-b
+       2 | shop-d    | firstname-c | slogan-d
+       3 | shop-e    | firstname-d | slogan-e
+       4 | shop-f    | firstname-e | slogan-f
+       5 | shop-g    | firstname-f | slogan-g
+       6 | shop-h    | firstname-a | slogan-h
+       7 | shop-i    | firstname-g | slogan-i
+       8 | shop-a    | firstname-h | slogan-a
+       9 | shop-j    | firstname-i | slogan-j
+      10 | shop-k    | firstname-j | slogan-k
+      11 | shop-c    | firstname-c | slogan-c
+(11 rows)
+
