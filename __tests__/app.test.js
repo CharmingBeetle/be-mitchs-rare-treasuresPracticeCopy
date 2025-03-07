@@ -79,9 +79,11 @@ describe("/api/treasures", () => {
                     return request(app)
                     .get('/api/treasures?sort_by=age')
                     .expect(200)
-                    .then(( {body} ) => {
-                        const treasures = body.treasure
+                    .then((response) => {
+                        const treasures = response.body.treasures
+                        console.log(response)
                         expect(treasures.length).toBeGreaterThan(0)
+                        expect(treasures).toBeSortedBy('age')
                         treasures.forEach((treasure) =>{
                             expect(typeof treasure.treasure_id).toBe("number");
                             expect(typeof treasure.treasure_name).toBe("string")
@@ -89,6 +91,7 @@ describe("/api/treasures", () => {
                             expect(typeof treasure.age).toBe('Number');
                             expect(typeof treasure.cost_at_auction).toBe("number");
                             expect(typeof treasure.shop_id).toBe("number");
+                            
                         })
                       
                         })

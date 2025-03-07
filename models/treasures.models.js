@@ -19,6 +19,26 @@ exports.fetchTreasuresById = (treasure_id) => {
         return rows[0]
     })
 }
+
+
+exports.fetchTreasureByKey = (treasureKey) => {
+
+    const allowedInputs =[age,cost_at_auction,treasure_name]
+    let queryString = ('SELECT FROM treasures ')
+    return db.query(`SELECT * FROM treasures WHERE treasure_id =$1`, [treasureKey])
+    .then(({ rows })=> {
+        if (rows.length === 0) {
+            return Promise.reject({ status: 404, msg: "Treasure not found" });
+        }
+        // console.log(rows, "<<<< BY ID")
+        return rows[0]
+    })
+}
+
+
+
+
+
 // exports.fetchTreasuresByAge= (age) => {
 //     console.log("fetchages model")
 //     return db.query(`SELECT * FROM treasures ORDER BY age ASC`, [age])

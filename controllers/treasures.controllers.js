@@ -19,6 +19,12 @@ exports.getTreasuresById = (request, response, next)=> {
     .catch(next)
 }
 
+//const {age,cost_at_auction,treasure_name} = request.params
 
+//fetchTreasureByKey(age,cost_at_auction,treasure_name)
+//.then(tresureKey)=>{
+//response.status(200).send(trea)
+//}
 
+//model
 
