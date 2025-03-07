@@ -1,11 +1,14 @@
 const app = require("../app")
-const { fetchTreasures, fetchTreasuresById, fetchTreasuresByAge, fetchTreasuresByCost } = require("../models/treasures.models")
+const { fetchTreasures, fetchTreasuresById } = require("../models/treasures.models")
 
-exports.getTreasures = (request, response)=> {
+exports.getTreasures = (request, response,next)=> {
     
     fetchTreasures()
     .then((treasures)=> {
         response.status(200).send({treasures})
+    })
+    .catch((err)=> {
+        next(err)
     })
 }
 
@@ -16,7 +19,9 @@ exports.getTreasuresById = (request, response, next)=> {
     .then((treasure)=> {
         response.status(200).send({treasure})
     })
-    .catch(next)
+    .catch((err) => {
+        next(err)
+    })
 }
 
 //const {age,cost_at_auction,treasure_name} = request.params

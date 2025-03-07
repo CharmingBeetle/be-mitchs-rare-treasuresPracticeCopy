@@ -12,10 +12,9 @@ exports.fetchTreasures = () => {
 exports.fetchTreasuresById = (treasure_id) => {
     return db.query(`SELECT * FROM treasures WHERE treasure_id =$1`, [treasure_id])
     .then(({ rows })=> {
-        if (rows.length === 0) {
-            return Promise.reject({ status: 404, msg: "Treasure not found" });
+        if (!rows.length) {
+            return Promise.reject({ status: 404, msg: "treasure not found!" });
         }
-        // console.log(rows, "<<<< BY ID")
         return rows[0]
     })
 }

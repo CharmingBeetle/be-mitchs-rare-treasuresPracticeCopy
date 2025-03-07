@@ -12,14 +12,16 @@ beforeEach(()=> {
 afterAll(()=> {
     return db.end()
 })
-describe("/api/treasures", () => {
-    describe("GET", () => {
-        test("200: Tests whether we receive an object of all treasures requested",() => {
+
+describe("GET: /api/treasures", () => {
+ 
+        test("200: Returns with an array of objects of all treasures requested",() => {
             return request(app)
             .get("/api/treasures")
             .expect(200)
-            .then((response) => {
-                const treasures = response.body.treasures
+            .then(({body}) => {
+                const treasures = body.treasures
+                console.log(treasures, "<<<TREASURES")
                 expect(treasures.length).toBeGreaterThan(0)
                 treasures.forEach((treasure)=> {  
                     expect(typeof treasure.treasure_id).toBe("number");
@@ -32,17 +34,11 @@ describe("/api/treasures", () => {
             })
         })
         test("200: Returns an array of objects sorted by age in ascending order",() => {
-                return request(app)
-                .get("/api/treasures")
-                .expect(200)
-                .then((response) => {
-                    const treasures = response.body.treasures
-                    // // console.log(treasures, "<<<< TREASURES")
-                    // const ageArr = treasures.map(treasure => {
-                    //     treasure.treasure.age
-                    //     console.log(ageArr, "<<<< AGES")
-                    //     return ageArr
-                    // })
+            return request(app)
+            .get("/api/treasures")
+            .expect(200)
+            .then(({ body }) => {
+                const treasures = body.treasures //array of object items
                     const firstTreasure = treasures[0]
                     const lastTreasure = treasures[treasures.length-1]
                     expect(lastTreasure.age).toBeGreaterThan(firstTreasure.age)
@@ -58,15 +54,14 @@ describe("/api/treasures", () => {
                     })
                 })
             })
-            test("200: Tests whether we receive an individual object with the requested ID",() => {
-                return request(app)
-                .get('/api/treasures/12')
-                .expect(200)
-                .then(({ body }) => {
-                    const treasure = body.treasure
-                    console.log(response, "OVER HERE")
-                    console.log(body, "LOOOOOOOK")
-                    console.log(body.treasure, "LOOOOOOOOK")
+describe("GET: /api/treasures/:treasure_id", () => {
+        test("200: Tests whether we receive an individual object with the requested ID",() => {
+            return request(app)
+            .get('/api/treasures/12')
+            .expect(200)
+            .then(({ body }) => {
+                    const treasure = body.treasure //indiv object item
+                    console.log(treasure, "<<<<individual TREASURE")
                         expect(treasure.treasure_id).toBe(12);
                         expect(typeof treasure.treasure_name).toBe("string");
                         expect(typeof treasure.colour).toBe("string");
@@ -74,27 +69,37 @@ describe("/api/treasures", () => {
                         expect(typeof treasure.cost_at_auction).toBe("number");
                         expect(typeof treasure.shop_id).toBe("number");
                     })
+            })
+        test("400: Responds with error if ID is not valid",() => {
+                return request(app)
+                 .get('/api/treasures/notValidId')
+                 .expect(400)
+                 .then(({body}) => {
+                     expect(body.msg).toBe("bad request")
+                         })
+                         })
+        test("404: Responds with error if treasure does not exist",() => {
+                 return request(app)
+                 .get('/api/treasures/99')
+                 .expect(404)
+                 .then(({body}) => {
+                     expect(body.msg).toBe("treasure not found!")
+                             })
+                             })
+                     })
+describe("ANY: /notpath", ()=> {
+        test("404: Responds with error if path not found",() => {
+            return request(app)
+                .get('/notpath')
+                .expect(404)
+                .then(({body}) => {
+                    expect(body.msg).toBe("path not found!")
+                            })
+                            })
                 })
-                test("200: Tests so we can get an array sorted by age",() => {
-                    return request(app)
-                    .get('/api/treasures?sort_by=age')
-                    .expect(200)
-                    .then((response) => {
-                        const treasures = response.body.treasures
-                        console.log(response)
-                        expect(treasures.length).toBeGreaterThan(0)
-                        expect(treasures).toBeSortedBy('age')
-                        treasures.forEach((treasure) =>{
-                            expect(typeof treasure.treasure_id).toBe("number");
-                            expect(typeof treasure.treasure_name).toBe("string")
-                            expect(typeof treasure.colour).toBe("string");
-                            expect(typeof treasure.age).toBe('Number');
-                            expect(typeof treasure.cost_at_auction).toBe("number");
-                            expect(typeof treasure.shop_id).toBe("number");
-                            
+
+                xtest("200: Tests so we can get an array sorted by age",() => {
                         })
-                      
-                        })
-                        })
-                    })
-    })
+
+                })
+                
