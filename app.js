@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { getTreasures , getTreasuresById, getTreasuresByAscSort } = require("./controllers/treasures.controllers")
+const { getTreasures , getTreasuresById } = require("./controllers/treasures.controllers")
 const { handlePsqlErrors, 
     handleServerErrors, 
     handleCustomErrors 
@@ -16,8 +16,6 @@ app.get("/api", (_,res)=> {
 app.get("/api/treasures", getTreasures)
 
 app.get("/api/treasures/:treasure_id", getTreasuresById)
-
-
 
 //catch all for any method and route not matched above
 app.all('*', (req, res) => {

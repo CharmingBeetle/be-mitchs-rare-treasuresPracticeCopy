@@ -1,8 +1,9 @@
 const db = require("../db/connection")
 
-exports.fetchTreasures = (treasure_id, sort_by= 'age') => {
+exports.fetchTreasures = (treasure_id, sort_by= 'age', order="asc", colour) => {
     
     const validInputs =['age','cost_at_auction','treasure_name']
+
 
     if(!validInputs.includes(sort_by)) {
         return Promise.reject({ status: 400, msg: "Invalid input" });
@@ -14,19 +15,21 @@ exports.fetchTreasures = (treasure_id, sort_by= 'age') => {
         sqlQuery += 'WHERE treasure_id = $1'
         queryValues.push(treasure_id)
     }
-
     if (sort_by) {
-        // queryValues.push(sort_by)
-        sqlQuery += `ORDER BY ${sort_by} ASC`
+        sqlQuery += `ORDER BY ${sort_by} ${order.toUpperCase()};`
+    }
 
+    if(colour) {
+        sqlQuery += `WHERE colour = $1`
+        queryValues.push(colour)
     }
     return db.query(sqlQuery, queryValues)
     .then(({ rows })=> 
     {
-
         return rows
     })
-    }
+}
+
 
     
 

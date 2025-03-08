@@ -49,9 +49,9 @@ describe("GET: /api/treasures", () => {
             .expect(200)
             .then(({ body }) => {
                 const treasures = body.treasures //array of object items
-                    const firstTreasure = treasures[0]
-                    const lastTreasure = treasures[treasures.length-1]
-                    expect(lastTreasure.age).toBeGreaterThan(firstTreasure.age)
+                expect(treasures.length).toBeGreaterThan(0)
+                // console.log(treasures, "<<<<<SORTED BY AGE")
+                expect(treasures).toBeSortedBy('age');
                     expect(treasures.length).toBeGreaterThan(0)
 
                     treasures.forEach((treasure)=> {  
@@ -64,6 +64,36 @@ describe("GET: /api/treasures", () => {
                     })
                 })
             })
+            test("200: Returns an array of objects sorted by in descending order",() => {
+                return request(app)
+                .get("/api/treasures?order=desc")
+                .expect(200)
+                .then(({ body }) => {
+                    const treasures = body.treasures //array of 
+                    // object items
+                    const ages = treasures.map(treasure => treasure.age);
+                    // console.log(treasures, "<<<<<<DESCENDING")
+                        expect(treasures.length).toBeGreaterThan(0)
+                        expect(treasures).toBeSorted({ descending: true })
+                        expect(ages).toBeSorted({descending:true})
+                    })
+                })
+                test("200: Returns an array of objects of certain colour",() => {
+                    return request(app)
+                    .get("/api/treasures?colour=gold")
+                    .expect(200)
+                    .then(({ body }) => {
+                        const treasures = body.treasures //array of 
+                        // object items
+                        const colours = treasures.map(treasure => treasure.colour);
+                        console.log(colours, "<<<<<<GOLD")
+                            expect(treasures.length).toBeGreaterThan(0)
+                            treasures.forEach(treasure => {
+                                expect(treasures.colour).toBe("gold")
+                            })
+                            
+                        })
+                    })
         test("200: Returns an array of treasures sorted by ascending age",() => {
             return request(app)
             .get('/api/treasures?sort_by=age')
