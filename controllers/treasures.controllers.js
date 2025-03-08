@@ -1,16 +1,16 @@
-const app = require("../app")
-const { fetchTreasures, fetchTreasuresById } = require("../models/treasures.models")
+const { fetchTreasures, fetchTreasuresById} = require("../models/treasures.models")
 
 exports.getTreasures = (request, response,next)=> {
-    
-    fetchTreasures()
-    .then((treasures)=> {
-        response.status(200).send({treasures})
-    })
-    .catch((err)=> {
-        next(err)
-    })
-}
+   const  { sort_by } = request.query
+  
+        fetchTreasures(null, sort_by)
+        .then((treasures)=> {
+            response.status(200).send({treasures})
+        })
+        .catch(next)
+        }
+
+
 
 exports.getTreasuresById = (request, response, next)=> {
     const { treasure_id } = request.params
@@ -24,12 +24,16 @@ exports.getTreasuresById = (request, response, next)=> {
     })
 }
 
-//const {age,cost_at_auction,treasure_name} = request.params
+exports.getTreasuresByAscSort = (request, response,next)=> {
+    const { sort_by } =req.query
 
-//fetchTreasureByKey(age,cost_at_auction,treasure_name)
-//.then(tresureKey)=>{
-//response.status(200).send(trea)
-//}
+    fetchTreasures(sort_by)
+    .then((treasures)=> {
+        response.status(200).send({treasures})
+    })
+    .catch((err)=> {
+        next(err)
+    })
+}
 
-//model
 

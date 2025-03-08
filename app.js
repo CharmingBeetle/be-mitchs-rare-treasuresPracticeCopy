@@ -1,18 +1,23 @@
 const express = require('express')
 const app = express()
-const { getTreasures , getTreasuresById } = require("./controllers/treasures.controllers")
+const { getTreasures , getTreasuresById, getTreasuresByAscSort } = require("./controllers/treasures.controllers")
 const { handlePsqlErrors, 
     handleServerErrors, 
     handleCustomErrors 
 } = require('./controllers/errors.controllers')
 
+
 app.use(express.json())
+
+app.get("/api", (_,res)=> {
+    res.status(200).send({msg:"Server running ok."})
+})
 
 app.get("/api/treasures", getTreasures)
 
 app.get("/api/treasures/:treasure_id", getTreasuresById)
 
-// app.get("/api/treasures", )
+
 
 //catch all for any method and route not matched above
 app.all('*', (req, res) => {
